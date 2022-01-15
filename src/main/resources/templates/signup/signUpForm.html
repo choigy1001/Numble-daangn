@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--예외처리가 필요함 null 체크-->
+<form th:action method="post" th:object="${signupDto}">
+    이메일(ID)<br>
+    <input type="text" th:field="*{email}" ><br>
+    비밀번호<br>
+    <input type="text"  th:field="*{password}" ><br>
+    이름<br>
+    <input type="text"  th:field="*{username}" ><br>
+    핸드폰번호<br>
+    <input type="text"  th:field="*{phoneNumber}" ><br>
+    닉네임<br>
+    <input type="text"  th:field="*{nickname}" ><br>
+    <input type="submit" value="가입하기">
+    
+</form>
+</body>
+</html>
