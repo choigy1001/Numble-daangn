@@ -1,6 +1,7 @@
 package numble.daangnservice.domain.user;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import numble.daangnservice.domain.BaseEntity;
@@ -44,4 +45,20 @@ public class UserEntity extends BaseEntity {
     @Column(name = "profile_image_url")
     private String profileImageUrl;
 
+    @Builder
+    public UserEntity(
+            String email,
+            String password,
+            String username,
+            String phoneNumber,
+            String nickname,
+            String profileImageUrl){
+
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.phoneNumber = phoneNumber;
+        this.nickname = nickname;
+        this.profileImageUrl = profileImageUrl;
+    }
 }
