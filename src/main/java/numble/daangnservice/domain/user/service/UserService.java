@@ -1,10 +1,11 @@
 package numble.daangnservice.domain.user.service;
 
+import numble.daangnservice.domain.user.UserEntity;
 import numble.daangnservice.dto.UserDto;
 
 public interface UserService {
 
-    void signUp(UserDto.SIGNUP signupDto);
+    boolean signUp(UserDto.SIGNUP signupDto);
 
-    Boolean login(UserDto.LOGIN loginDto);
+    UserEntity login(UserDto.LOGIN loginDto);
 }
