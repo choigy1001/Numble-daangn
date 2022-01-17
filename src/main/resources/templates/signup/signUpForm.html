@@ -7,6 +7,11 @@
 <body>
 <!--예외처리가 필요함 null 체크-->
 <form th:action method="post" th:object="${signupDto}">
+
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
+    </div>
+
     이메일(ID)<br>
     <input type="text" th:field="*{email}" ><br>
     비밀번호<br>

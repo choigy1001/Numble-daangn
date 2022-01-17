@@ -7,17 +7,19 @@
 <body>
 <!--예외처리가 필요함 null 체크-->
 로그인<br>
-<form th:action method="post" th:object="${loginDto}">
+<form action="/templates/start.html" th:action th:object="${loginDto}" method="post">
 
     <div th:if="${#fields.hasGlobalErrors()}">
         <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
     </div>
+
     <div>
-    이메일(ID): <br> <input type="text" th:field="*{email}"><br>
+    이메일(ID): <br>
+        <input type="text" th:field="*{email}"><br>
         <div class="field-error" th:errors="*{email}" />
     </div>
     <div>
-        비밀번호: <br> <input type="text" th:field="*{password}"><br><br><br>
+        비밀번호: <br> <input type="text" th:field="*{password}"><br>
         <div class="field-error" th:errors="*{password}" />
     </div>
     <button type="submit">로그인</button>

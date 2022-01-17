@@ -23,12 +23,12 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     @Override
-    public void signUp(UserDto.SIGNUP signupDto) {
+    public boolean signUp(UserDto.SIGNUP signupDto) {
 
         Optional<UserEntity> findUserEntity = userRepository.findByEmail(signupDto.getEmail());
 
         if(findUserEntity.isPresent()){
-            throw new BusinessException(ErrorCode.DUPLICATED_EMAIL);
+            return false;
         }
 
         userRepository.save(
@@ -41,10 +41,11 @@ public class UserServiceImpl implements UserService{
                         .profileImageUrl("ImageUrl")
                         .build()
         );
+        return true;
     }
 
     @Override
-    public Boolean login(UserDto.LOGIN loginDto) {
+    public UserEntity login(UserDto.LOGIN loginDto) {
 
         UserEntity findUser = userRepository.findByEmail(loginDto.getEmail())
                 .filter(u -> u.getPassword().equals(loginDto.getPassword()))
@@ -52,10 +53,7 @@ public class UserServiceImpl implements UserService{
 //        log.info("findUser email={}",findUser.getEmail());
 //        log.info("findUser password={}",findUser.getPassword());
 
-        if (findUser == null) {
-            return false;
-        }
-        return true;
+        return findUser;
 
         /*
         if(Boolean.FALSE.equals(findUserEntity.isPresent())){
