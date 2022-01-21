@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+나의 당근
+<div>
+    <img th:src="${profileImage}" style="width: 100px; height: 100px;">
+    <br>
+    <h3 th:text="${nickname}"></h3>
+    <button th:onclick="|location.href='@{/myInfo/edit}'|">프로필 수정</button>
+    <div>
+        <a href="">판매내역</a>
+    </div>
+    <div>
+        <a href="">관심목록</a>
+    </div>
+
+    <a href="/logout">Log out</a>
+</div>
+</body>
+</html>

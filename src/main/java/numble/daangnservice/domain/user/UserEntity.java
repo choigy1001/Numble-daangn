@@ -45,6 +45,12 @@ public class UserEntity extends BaseEntity {
     @Column(name = "profile_image_url")
     private String profileImageUrl;
 
+
+    public void editInfo(String newNickname, String newProfileImageUrl) {
+        this.nickname = newNickname;
+        this.profileImageUrl = newProfileImageUrl;
+    }
+
     @Builder
     public UserEntity(
             String email,

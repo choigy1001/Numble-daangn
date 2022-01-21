@@ -16,4 +16,8 @@ public class MoveController {
         return "start";
     }
 
+    @GetMapping("/main")
+    public String moveMain(){
+        return "mainPage";
+    }
 }

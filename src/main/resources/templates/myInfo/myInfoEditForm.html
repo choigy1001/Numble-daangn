@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+</script>
+나의 당근 <br>
+<img th:src="${profileImage}" id="previewImage1" style="width: 100px; height: 100px;"><br>
+<form th:action method="post" enctype="multipart/form-data">
+    <input type="file" name="profileImage" accept="image/*" value="앨범에서 선택"><br>
+    <input type="text" name="newNickname" th:value="${nickname}" required><br>
+    <button type="submit">완료</button>
+</form>
+</body>
+</html>
