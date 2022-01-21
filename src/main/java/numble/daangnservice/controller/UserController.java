@@ -25,15 +25,15 @@ public class UserController {
     @GetMapping("/signup")
     public String moveSignupForm(Model model) {
         model.addAttribute("signupDto", new UserDto.SIGNUP());
-        return "/signup/signUpForm";
+        return "signup/signUpForm";
     }
 
     @PostMapping("/signup")
     public String serviceSignUp(@Valid @ModelAttribute("signupDto") UserDto.SIGNUP signupDto, BindingResult bindingResult) {
         boolean user = userService.signUp(signupDto);
-        if(!user){
+        if (!user) {
             bindingResult.reject("회원가입 실패", "중복된 회원입니다. 다른 이메일 사용해주세요");
-            return "/signup/signUpForm";
+            return "signup/signUpForm";
         }
         return "redirect:/signup/complete";
     }
@@ -56,19 +56,28 @@ public class UserController {
             bindingResult.reject("loginFail", "아이디 또는 비밀번호 오류입니다");
             return "login/loginForm";
         }
-        //로그인 성공 처리
-        HttpSession session = request.getSession();
-        //세션 로그인 회원 정보 보관
-        session.setAttribute(SessionConst.LOGIN_USER, findUser);
 
+        HttpSession session = request.getSession();
+        session.setAttribute(SessionConst.LOGIN_USER, findUser.getId());
+        log.info("redirectURL = {}", redirectURL);
+        if (redirectURL.equals("/")) {
+            return "redirect:/main";
+        }
         return "redirect:" + redirectURL;
-//        return "/main";
+
     }
 
     @GetMapping("/signup/complete")
     public String signUpComplete() {
-        return "/signup/complete";
+        return "signup/complete";
     }
 
-
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return "redirect:/";
+    }
 }

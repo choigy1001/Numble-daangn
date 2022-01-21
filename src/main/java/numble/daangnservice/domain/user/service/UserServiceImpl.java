@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService{
                         .username(signupDto.getUsername())
                         .phoneNumber(signupDto.getPhoneNumber())
                         .nickname(signupDto.getNickname())
-                        .profileImageUrl("ImageUrl")
+                        .profileImageUrl("../profile/basicImage.png")
                         .build()
         );
         return true;
@@ -50,15 +50,6 @@ public class UserServiceImpl implements UserService{
         UserEntity findUser = userRepository.findByEmail(loginDto.getEmail())
                 .filter(u -> u.getPassword().equals(loginDto.getPassword()))
                 .orElse(null);
-//        log.info("findUser email={}",findUser.getEmail());
-//        log.info("findUser password={}",findUser.getPassword());
-
         return findUser;
-
-        /*
-        if(Boolean.FALSE.equals(findUserEntity.isPresent())){
-            throw new UnknownUserException(ErrorCode.NOT_REGISTERED_USER);
-        }*/
-
     }
 }
