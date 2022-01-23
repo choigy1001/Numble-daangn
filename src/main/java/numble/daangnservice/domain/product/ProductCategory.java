@@ -2,6 +2,8 @@ package numble.daangnservice.domain.product;
 
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @Getter
 public enum ProductCategory {
     DIGITAL_DEVICE("디지털기기"), HOME_APPLIANCES("생활가전"), FURNITURE("가구/인테리어"), INFANT_CHILD("유아동"),
@@ -14,5 +16,12 @@ public enum ProductCategory {
 
     ProductCategory(String category) {
         this.category = category;
+    }
+
+    public static ProductCategory findCategory(String category) {
+        return Arrays.stream(values())
+                .filter(productCategory -> productCategory.category.equals(category))
+                .findFirst()
+                .orElse(null);
     }
 }
