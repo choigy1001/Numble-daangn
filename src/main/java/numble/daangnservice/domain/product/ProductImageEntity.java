@@ -1,6 +1,7 @@
 package numble.daangnservice.domain.product;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import numble.daangnservice.domain.BaseEntity;
@@ -22,4 +23,10 @@ public class ProductImageEntity extends BaseEntity {
     @NotNull
     @Column(name = "product_image_url")
     private String productImageUrl;
+
+    @Builder
+    public ProductImageEntity(ProductEntity productEntity, String productImageUrl) {
+        this.productEntity = productEntity;
+        this.productImageUrl = productImageUrl;
+    }
 }

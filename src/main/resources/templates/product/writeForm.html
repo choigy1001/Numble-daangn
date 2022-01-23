@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div>
+<form th:action method="post" th:object="${productDto}" enctype="multipart/form-data">
+    <div>
+        <a href="/main">
+            <img src="../img/back.png" alt="뒤로 가기" width="20px" height="20px">
+        </a>
+        중고거래 글쓰기
+        <input type="submit" value="작성완료"><br><hr>
+    </div>
+
+    <input type="file" th:field="*{productImages}" multiple="multiple"><br>
+    <hr>
+    제목: <input type="text" th:field="*{title}" value="제목"><br><hr>
+    카테고리: <input type="text" th:field="*{category}" value="카테고리"><br><hr>
+    가격(원): <input type="text" th:field="*{price}" value="가격(원)"><br><hr>
+    내용: <textarea name="content" th:field="*{content}" cols="30" rows="10">내용</textarea>
+</form>
+</div>
+</body>
+</html>
