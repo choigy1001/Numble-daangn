@@ -2,6 +2,8 @@ package numble.daangnservice.domain.myInfo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import numble.daangnservice.domain.product.ProductEntity;
+import numble.daangnservice.domain.repository.ProductRepository;
 import numble.daangnservice.domain.repository.UserRepository;
 import numble.daangnservice.domain.user.UserEntity;
 import numble.daangnservice.domain.utils.FileNameGenerator;
@@ -11,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -20,6 +24,7 @@ import java.util.Optional;
 public class MyInfoServiceImpl implements MyInfoService {
 
     private final UserRepository userRepository;
+    private final ProductRepository productRepository;
 
     @Transactional
     @Override
@@ -50,5 +55,18 @@ public class MyInfoServiceImpl implements MyInfoService {
     public UserEntity findUser(Long id) {
         Optional<UserEntity> findUser = userRepository.findById(id);
         return findUser.get();
+    }
+
+    @Override
+    public List<ProductEntity> findProduct(UserEntity userEntity) {
+        List<ProductEntity> productEntityList = new ArrayList<>();
+
+        List<ProductEntity> byUserEntity = productRepository.findByUserEntity(userEntity);
+//        for (ProductEntity productEntity : byUserEntity) {
+//            productEntityList.add(productEntity);
+//        }
+        productEntityList.addAll(byUserEntity);
+
+        return productEntityList;
     }
 }

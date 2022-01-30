@@ -45,12 +45,20 @@ public class ProductEntity extends BaseEntity {
     private ProductCategory category;
 
     @NotNull
+    @Column(name = "content")
+    private String content;
+
+    @NotNull
     @Column(name = "comment_count")
     private Integer commentCount = 0;
 
     @NotNull
     @Column(name = "like_count")
     private Integer likeCount = 0;
+
+    public void editStatus(ProductStatus status){
+        this.status=status;
+    }
 
     @Builder
     public ProductEntity(UserEntity userEntity,
@@ -59,6 +67,7 @@ public class ProductEntity extends BaseEntity {
                          Integer price,
                          ProductStatus status,
                          ProductCategory category,
+                         String content,
                          Integer commentCount,
                          Integer likeCount) {
         this.userEntity = userEntity;
@@ -67,6 +76,7 @@ public class ProductEntity extends BaseEntity {
         this.price = price;
         this.status = status;
         this.category = category;
+        this.content = content;
         this.commentCount = commentCount;
         this.likeCount = likeCount;
     }

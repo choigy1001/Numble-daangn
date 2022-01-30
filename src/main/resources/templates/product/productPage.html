@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2 th:text="${nickname}"></h2>
+
+    <h3 th:text="${product.title}"></h3>
+    <h3 th:text="${product.price}"></h3>
+    <h3 th:text="${product.category}"></h3>
+    <h3 th:text="${product.createdAt}"></h3>
+    <h3 th:text="${product.content}"></h3>
+    <h3 th:text="${product.id}"></h3>
+    <button th:onclick="|location.href='@{/product/page/{productId}(productId=${product.id})}'|">게시글 수정</button>
+    <button th:onclick="|location.href='@{/product/delete/{productId}(productId=${product.id})}'|">게시글 삭제</button>
+</body>
+</html>

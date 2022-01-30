@@ -1,9 +1,11 @@
 package numble.daangnservice.domain.myInfo;
 
+import numble.daangnservice.domain.product.ProductEntity;
 import numble.daangnservice.domain.user.UserEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface MyInfoService {
 
@@ -12,4 +14,6 @@ public interface MyInfoService {
     void deleteProfileImage();
 
     UserEntity findUser(Long id);
+
+    List<ProductEntity> findProduct(UserEntity userEntity);
 }

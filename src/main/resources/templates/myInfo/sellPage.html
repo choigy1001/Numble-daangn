@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+    <table>
+        <tr>
+            <th>제목</th>
+            <th>장소</th>
+            <th>가격</th>
+            <th>댓글수</th>
+            <th>좋아요수</th>
+            <th>id</th>
+        </tr>
+
+        <tr th:each="product: ${productList}">
+<!--            <form th:action="@{/product/page}" method="get" th:object="product">-->
+            <td th:text="${product.title}"></td>
+            <td th:text="${product.place}"></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.commentCount}"></td>
+            <td th:text="${product.likeCount}"></td>
+                <td th:text="${product.id}"></td>
+                <button th:onclick="|location.href='@{/product/page/{productId}(productId=${product.id})}'|">상품페이지로 이동</button>
+<!--            </form>-->
+<!--            상태 변경 로직에서 product를 어떻게 넘길지 고민-->
+            <td>
+                <button th:onclick="|location.href='@{/product/reserve/{productId}(productId=${product.id})}'|">예약중으로 변경</button>
+                <button th:onclick="|location.href='@{/product/complete/{productId}(productId=${product.id})}'|">거래완료로 변경</button>
+            </td>
+        </tr>
+    </table>
     판매내역
 </body>
 </html>
