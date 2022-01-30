@@ -44,6 +44,7 @@ public class ProductService {
                         .place("하단2동")
                         .price(productDto.getPrice())
                         .status(ProductStatus.SELL)
+                        .content(productDto.getContent())
                         .category(ProductCategory.findCategory(productDto.getCategory()))
                         .commentCount(0)
                         .likeCount(0)
@@ -62,5 +63,28 @@ public class ProductService {
             );
         }
 
+    }
+
+    public ProductEntity findProduct(Long productId){
+        return productRepository.findById(productId).get();
+    }
+
+    @Transactional
+    public void deleteProductInfo(Long productId){
+        ProductEntity product = findProduct(productId);
+        productRepository.deleteById(productId);
+        productImageRepository.deleteByProductEntity(product);
+    }
+
+    @Transactional
+    public void changeToReserve(Long productId) {
+        ProductEntity product = findProduct(productId);
+        product.editStatus(ProductStatus.RESERVATION);
+    }
+
+    @Transactional
+    public void changeToComplete(Long productId) {
+        ProductEntity product = findProduct(productId);
+        product.editStatus(ProductStatus.COMPLETE);
     }
 }
