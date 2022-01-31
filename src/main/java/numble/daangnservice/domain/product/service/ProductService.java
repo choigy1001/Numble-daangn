@@ -37,6 +37,10 @@ public class ProductService {
 
         Optional<UserEntity> userEntity = userRepository.findById(id);
 
+        List<MultipartFile> productImagesList = productDto.getProductImages();
+        List<String> productImageUrlsList = uploadService.uploadAll(productImagesList);
+        String firstImage = productImageUrlsList.get(0);
+
         ProductEntity productEntity = productRepository.save(
                 ProductEntity.builder()
                         .userEntity(userEntity.get())
@@ -48,11 +52,10 @@ public class ProductService {
                         .category(ProductCategory.findCategory(productDto.getCategory()))
                         .commentCount(0)
                         .likeCount(0)
+                        .representativeImage(firstImage)
                         .build()
         );
 
-        List<MultipartFile> productImagesList = productDto.getProductImages();
-        List<String> productImageUrlsList = uploadService.uploadAll(productImagesList);
 
         for (String productImageUrl : productImageUrlsList) {
             productImageRepository.save(

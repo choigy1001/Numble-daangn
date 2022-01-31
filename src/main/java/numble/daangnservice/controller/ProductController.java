@@ -25,7 +25,6 @@ import java.io.IOException;
 public class ProductController {
 
     private final ProductService productService;
-    private final MyInfoService myInfoService;
 
     @GetMapping("/product/form")
     public String moveProductForm(Model model) {
@@ -39,8 +38,6 @@ public class ProductController {
         HttpSession session = request.getSession(false);
         Long userId = (Long) session.getAttribute("LOGIN_USER");
 
-        log.info("product.getImage= {}", productDto.getProductImages());
-        log.info("product content= {}", productDto.getContent());
         productService.registerProduct(productDto, userId);
 
         return "redirect:/main";
@@ -66,7 +63,6 @@ public class ProductController {
 
     @GetMapping("/product/reserve/{productId}")
     public String changeStatusReserve(@PathVariable Long productId) {
-        log.info("productId={}", productId);
         productService.changeToReserve(productId);
         return "redirect:/myInfo";
     }
