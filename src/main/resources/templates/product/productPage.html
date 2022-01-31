@@ -6,6 +6,8 @@
 </head>
 <body>
     <h2 th:text="${nickname}"></h2>
+<div th:object="${product}">
+    <img th:src="${product.representativeImage}" alt="이미지 칸이에요">
 
     <h3 th:text="${product.title}"></h3>
     <h3 th:text="${product.price}"></h3>
@@ -13,6 +15,7 @@
     <h3 th:text="${product.createdAt}"></h3>
     <h3 th:text="${product.content}"></h3>
     <h3 th:text="${product.id}"></h3>
+</div>
     <button th:onclick="|location.href='@{/product/page/{productId}(productId=${product.id})}'|">게시글 수정</button>
     <button th:onclick="|location.href='@{/product/delete/{productId}(productId=${product.id})}'|">게시글 삭제</button>
 </body>

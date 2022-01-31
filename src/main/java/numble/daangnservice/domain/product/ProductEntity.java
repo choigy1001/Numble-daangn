@@ -56,6 +56,10 @@ public class ProductEntity extends BaseEntity {
     @Column(name = "like_count")
     private Integer likeCount = 0;
 
+    @NotNull
+    @Column(name = "representative_image")
+    private String representativeImage;
+
     public void editStatus(ProductStatus status){
         this.status=status;
     }
@@ -69,7 +73,8 @@ public class ProductEntity extends BaseEntity {
                          ProductCategory category,
                          String content,
                          Integer commentCount,
-                         Integer likeCount) {
+                         Integer likeCount,
+                         String representativeImage) {
         this.userEntity = userEntity;
         this.title = title;
         this.place = place;
@@ -79,5 +84,6 @@ public class ProductEntity extends BaseEntity {
         this.content = content;
         this.commentCount = commentCount;
         this.likeCount = likeCount;
+        this.representativeImage = representativeImage;
     }
 }

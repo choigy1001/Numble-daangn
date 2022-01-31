@@ -39,7 +39,11 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String moveLoginForm(@ModelAttribute("loginDto") UserDto.LOGIN loginDto) {
+    public String moveLoginForm(@ModelAttribute("loginDto") UserDto.LOGIN loginDto, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            return "/mainPage";
+        }
         return "login/loginForm";
     }
 
@@ -59,7 +63,7 @@ public class UserController {
 
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_USER, findUser.getId());
-        log.info("redirectURL = {}", redirectURL);
+
         if (redirectURL.equals("/")) {
             return "redirect:/main";
         }
