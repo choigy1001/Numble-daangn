@@ -16,7 +16,10 @@
     <h3 th:text="${product.content}"></h3>
     <h3 th:text="${product.id}"></h3>
 </div>
-    <button th:onclick="|location.href='@{/product/page/{productId}(productId=${product.id})}'|">게시글 수정</button>
-    <button th:onclick="|location.href='@{/product/delete/{productId}(productId=${product.id})}'|">게시글 삭제</button>
+    <div>
+        <button th:onclick="|location.href='@{/product/like/{productId}(productId=${product.id})}'|">좋아요</button>
+        <button th:onclick="|location.href='@{/product/page/{productId}(productId=${product.id})}'|">게시글 수정</button>
+        <button th:onclick="|location.href='@{/product/delete/{productId}(productId=${product.id})}'|">게시글 삭제</button>
+    </div>
 </body>
 </html>

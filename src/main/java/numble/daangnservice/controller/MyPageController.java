@@ -27,7 +27,7 @@ public class MyPageController {
     @GetMapping("/myInfo")
     public String moveMyPage(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
-        Long userId = (Long)session.getAttribute("LOGIN_USER");
+        Long userId = (Long) session.getAttribute("LOGIN_USER");
         UserEntity user = myInfoService.findUser(userId);
 
         model.addAttribute("profileImage", user.getProfileImageUrl());
@@ -37,9 +37,9 @@ public class MyPageController {
     }
 
     @GetMapping("/myInfo/edit")
-    public String myInfoEditForm(HttpServletRequest request, Model model){
+    public String myInfoEditForm(HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
-        Long userId = (Long)session.getAttribute("LOGIN_USER");
+        Long userId = (Long) session.getAttribute("LOGIN_USER");
         UserEntity user = myInfoService.findUser(userId);
 
         model.addAttribute("profileImage", user.getProfileImageUrl());
@@ -73,5 +73,16 @@ public class MyPageController {
         model.addAttribute("productList", product);
 
         return "/myInfo/sellPage";
+    }
+
+    @GetMapping("/myInfo/like")
+    public String myLikeList(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        Long userId = (Long) session.getAttribute("LOGIN_USER");
+
+        List<ProductEntity> likeProduct = myInfoService.findLikeProduct(userId);
+        model.addAttribute("productList", likeProduct);
+
+        return "myInfo/likePage";
     }
 }
