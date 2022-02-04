@@ -61,6 +61,16 @@ public class ProductController {
         return "redirect:/myInfo/sell";
     }
 
+    @GetMapping("/product/like/{productId}")
+    public String likeProduct(@PathVariable Long productId, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        Long userId = (Long) session.getAttribute("LOGIN_USER");
+
+        productService.saveUserLikeProduct(productId, userId);
+
+        return "redirect:/product/page/{productId}";
+    }
+
     @GetMapping("/product/reserve/{productId}")
     public String changeStatusReserve(@PathVariable Long productId) {
         productService.changeToReserve(productId);

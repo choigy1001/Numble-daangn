@@ -1,6 +1,7 @@
 package numble.daangnservice.domain.user;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import numble.daangnservice.domain.BaseEntity;
@@ -26,4 +27,12 @@ public class LikeEntity extends BaseEntity {
     @JoinColumn(name = "product_id")
     private ProductEntity productEntity;
 
+    @Builder
+    public LikeEntity(
+            UserEntity userEntity,
+            ProductEntity productEntity) {
+
+        this.userEntity = userEntity;
+        this.productEntity = productEntity;
+    }
 }

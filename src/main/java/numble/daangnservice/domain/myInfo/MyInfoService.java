@@ -16,4 +16,6 @@ public interface MyInfoService {
     UserEntity findUser(Long id);
 
     List<ProductEntity> findProduct(UserEntity userEntity);
+
+    List<ProductEntity> findLikeProduct(Long userId);
 }

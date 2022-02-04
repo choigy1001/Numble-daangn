@@ -6,9 +6,11 @@ import numble.daangnservice.domain.product.ProductCategory;
 import numble.daangnservice.domain.product.ProductEntity;
 import numble.daangnservice.domain.product.ProductImageEntity;
 import numble.daangnservice.domain.product.ProductStatus;
+import numble.daangnservice.domain.repository.LikeRepository;
 import numble.daangnservice.domain.repository.ProductImageRepository;
 import numble.daangnservice.domain.repository.ProductRepository;
 import numble.daangnservice.domain.repository.UserRepository;
+import numble.daangnservice.domain.user.LikeEntity;
 import numble.daangnservice.domain.user.UserEntity;
 import numble.daangnservice.domain.utils.UploadService;
 import numble.daangnservice.dto.ProductDto;
@@ -30,6 +32,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
     private final UploadService uploadService;
+    private final LikeRepository likeRepository;
 
 
     @Transactional
@@ -77,6 +80,20 @@ public class ProductService {
         ProductEntity product = findProduct(productId);
         productRepository.deleteById(productId);
         productImageRepository.deleteByProductEntity(product);
+    }
+
+    @Transactional
+    public void saveUserLikeProduct(Long productId, Long userId) {
+        Optional<UserEntity> userEntity = userRepository.findById(userId);
+        Optional<ProductEntity> productEntity= productRepository.findById(productId);
+
+        likeRepository.save(
+                LikeEntity.builder().
+                        userEntity(userEntity.get()).
+                        productEntity(productEntity.get()).
+                        build()
+        );
+
     }
 
     @Transactional

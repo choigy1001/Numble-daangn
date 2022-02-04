@@ -3,6 +3,7 @@ package numble.daangnservice.domain.myInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import numble.daangnservice.domain.product.ProductEntity;
+import numble.daangnservice.domain.repository.LikeRepository;
 import numble.daangnservice.domain.repository.ProductRepository;
 import numble.daangnservice.domain.repository.UserRepository;
 import numble.daangnservice.domain.user.UserEntity;
@@ -25,6 +26,7 @@ public class MyInfoServiceImpl implements MyInfoService {
 
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+    private final LikeRepository likeRepository;
 
     @Transactional
     @Override
@@ -68,5 +70,16 @@ public class MyInfoServiceImpl implements MyInfoService {
         productEntityList.addAll(byUserEntity);
 
         return productEntityList;
+    }
+
+    @Override
+    public List<ProductEntity> findLikeProduct(Long userId) {
+        UserEntity user = findUser(userId);
+
+        List<ProductEntity> productEntityList = new ArrayList<>();
+
+        List<ProductEntity> productList = likeRepository.findByUserEntity(user);
+
+        return productList;
     }
 }
