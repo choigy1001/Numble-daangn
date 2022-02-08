@@ -3,6 +3,7 @@ package numble.daangnservice.domain.myInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import numble.daangnservice.domain.product.ProductEntity;
+import numble.daangnservice.repository.LikeRepository;
 import numble.daangnservice.repository.ProductRepository;
 import numble.daangnservice.repository.UserRepository;
 import numble.daangnservice.domain.user.UserEntity;
@@ -24,6 +25,7 @@ public class MyInfoService {
 
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+    private final LikeRepository likeRepository;
 
     @Transactional
     public void changeInfo(Long userId, String newNickname, MultipartFile profileImage) throws IOException {
@@ -52,5 +54,10 @@ public class MyInfoService {
     public List<ProductEntity> findProduct(Long userId) {
         UserEntity userEntity = findUser(userId);
         return productRepository.findByUserEntity(userEntity);
+    }
+    public List<ProductEntity> findLikeProduct(Long userId) {
+        UserEntity user = findUser(userId);
+
+        return likeRepository.findByUserEntity(user);
     }
 }
