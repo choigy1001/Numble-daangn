@@ -12,7 +12,6 @@ public class UserDto {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    @Builder
     public static class SIGNUP{
 
         @Email
@@ -33,7 +32,6 @@ public class UserDto {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    @Builder
     public static class LOGIN{
 
         @NotNull
