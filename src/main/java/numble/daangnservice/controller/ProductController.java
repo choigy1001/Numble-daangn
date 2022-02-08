@@ -7,13 +7,11 @@ import numble.daangnservice.domain.product.ProductEntity;
 import numble.daangnservice.domain.product.service.ProductService;
 import numble.daangnservice.domain.user.UserEntity;
 import numble.daangnservice.dto.ProductDto;
+import numble.daangnservice.infrastructure.SessionConst;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -33,13 +31,10 @@ public class ProductController {
     }
 
     @PostMapping("/product/form")
-    public String registerProduct(@ModelAttribute("productDto") ProductDto.Register productDto, BindingResult bindingResult,
-                                  HttpServletRequest request) throws IOException {
-        HttpSession session = request.getSession(false);
-        Long userId = (Long) session.getAttribute("LOGIN_USER");
+    public String registerProduct(@SessionAttribute(name = SessionConst.LOGIN_USER, required = false) Long userId,
+                                  @ModelAttribute("productDto") ProductDto.Register productDto) throws IOException {
 
         productService.registerProduct(productDto, userId);
-
         return "redirect:/main";
     }
 
@@ -62,12 +57,10 @@ public class ProductController {
     }
 
     @GetMapping("/product/like/{productId}")
-    public String likeProduct(@PathVariable Long productId, HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        Long userId = (Long) session.getAttribute("LOGIN_USER");
+    public String likeProduct(@SessionAttribute(name = SessionConst.LOGIN_USER, required = false) Long userId,
+                              @PathVariable Long productId) {
 
         productService.saveUserLikeProduct(productId, userId);
-
         return "redirect:/product/page/{productId}";
     }
 

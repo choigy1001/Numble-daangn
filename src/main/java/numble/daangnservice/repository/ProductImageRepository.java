@@ -1,4 +1,4 @@
-package numble.daangnservice.domain.repository;
+package numble.daangnservice.repository;
 
 import numble.daangnservice.domain.product.ProductEntity;
 import numble.daangnservice.domain.product.ProductImageEntity;

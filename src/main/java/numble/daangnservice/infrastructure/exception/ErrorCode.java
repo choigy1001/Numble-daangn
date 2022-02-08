@@ -1,4 +1,4 @@
-package numble.daangnservice.exception;
+package numble.daangnservice.infrastructure.exception;
 
 import lombok.Getter;
 

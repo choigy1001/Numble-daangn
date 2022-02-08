@@ -6,11 +6,11 @@ import numble.daangnservice.domain.product.ProductCategory;
 import numble.daangnservice.domain.product.ProductEntity;
 import numble.daangnservice.domain.product.ProductImageEntity;
 import numble.daangnservice.domain.product.ProductStatus;
-import numble.daangnservice.domain.repository.LikeRepository;
-import numble.daangnservice.domain.repository.ProductImageRepository;
-import numble.daangnservice.domain.repository.ProductRepository;
-import numble.daangnservice.domain.repository.UserRepository;
 import numble.daangnservice.domain.user.LikeEntity;
+import numble.daangnservice.repository.LikeRepository;
+import numble.daangnservice.repository.ProductImageRepository;
+import numble.daangnservice.repository.ProductRepository;
+import numble.daangnservice.repository.UserRepository;
 import numble.daangnservice.domain.user.UserEntity;
 import numble.daangnservice.domain.utils.UploadService;
 import numble.daangnservice.dto.ProductDto;
@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,7 +58,6 @@ public class ProductService {
                         .build()
         );
 
-
         for (String productImageUrl : productImageUrlsList) {
             productImageRepository.save(
                     ProductImageEntity.builder()
@@ -68,7 +66,6 @@ public class ProductService {
                             .build()
             );
         }
-
     }
 
     public ProductEntity findProduct(Long productId){

@@ -44,7 +44,7 @@ public class MyPageController {
 
         model.addAttribute("profileImage", user.getProfileImageUrl());
         model.addAttribute("nickname", user.getNickname());
-        log.info("profileImageUrl={}", user.getProfileImageUrl());
+
         return "myInfo/myInfoEditForm";
     }
 
@@ -53,9 +53,6 @@ public class MyPageController {
                              HttpServletRequest request) throws IOException {
         HttpSession session = request.getSession(false);
         Long userId = (Long) session.getAttribute("LOGIN_USER");
-
-        log.info("newNickname = {}", newNickname);
-        log.info("profileImage={}", profileImage);
 
         myInfoService.changeInfo(userId, newNickname, profileImage);
 
@@ -67,8 +64,7 @@ public class MyPageController {
     public String mySellList(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         Long userId = (Long) session.getAttribute("LOGIN_USER");
-        UserEntity user = myInfoService.findUser(userId);
-        List<ProductEntity> product = myInfoService.findProduct(user);
+        List<ProductEntity> product = myInfoService.findProduct(userId);
 
         model.addAttribute("productList", product);
 

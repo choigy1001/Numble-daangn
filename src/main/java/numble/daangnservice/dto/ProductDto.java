@@ -14,7 +14,6 @@ public class ProductDto {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    @Builder
     public static class Register{
 
         @NotNull

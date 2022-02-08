@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -11,9 +11,8 @@
     <a href="/myInfo">나의 당근</a>
 
     <br><br><br>
-    <a href="/product/form">
-        <img src="../product/plus.png" alt="글쓰기" width="20px" height="20px">
-    </a>
+
+    <button th:onclick="|location.href='@{/product/form}'|">상품등록</button>
 </div>
 </body>
 </html>
