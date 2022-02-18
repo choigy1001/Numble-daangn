@@ -3,6 +3,7 @@ package numble.daangnservice.domain.myInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import numble.daangnservice.domain.product.ProductEntity;
+import numble.daangnservice.domain.user.LikeEntity;
 import numble.daangnservice.repository.LikeRepository;
 import numble.daangnservice.repository.ProductRepository;
 import numble.daangnservice.repository.UserRepository;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,9 +57,18 @@ public class MyInfoService {
         UserEntity userEntity = findUser(userId);
         return productRepository.findByUserEntity(userEntity);
     }
+
     public List<ProductEntity> findLikeProduct(Long userId) {
         UserEntity user = findUser(userId);
+        List<LikeEntity> likeList = likeRepository.findByUserEntity(user);
 
-        return likeRepository.findByUserEntity(user);
+        List<ProductEntity> productList = new ArrayList<>();
+        for (LikeEntity likeEntity : likeList) {
+            ProductEntity productEntity = likeRepository.findByLikeEntity(likeEntity.getId());
+            productList.add(productEntity);
+        }
+//        List<LikeEntity> likeList = likeRepository.findByUserEntity(user); //유저 엔티티를 넣어야하는가 아니면 단순 userId를 넣어도 상관없는가
+
+        return productList;
     }
 }

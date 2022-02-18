@@ -18,14 +18,14 @@
 
     <tr th:each="product: ${productList}">
         <!--            <form th:action="@{/product/page}" method="get" th:object="product">-->
-        <td><img th:src="${product.representativeImage}" alt="이미지칸"></td>
+        <td><img th:src="${product.representativeImage}" alt="이미지칸" width="50" height="50"></td>
         <td th:text="${product.title}"></td>
         <td th:text="${product.place}"></td>
         <td th:text="${product.price}"></td>
         <td th:text="${product.commentCount}"></td>
         <td th:text="${product.likeCount}"></td>
         <td th:text="${product.id}"></td>
-        <button th:onclick="|location.href='@{/product/page/{productId}(productId=${product.id})}'|">상품페이지로 이동</button>
+        <td><button th:onclick="|location.href='@{/product/page/{productId}(productId=${product.id})}'|">상품페이지로 이동</button></td>
 
     </tr>
 </table>
