@@ -2,7 +2,6 @@ package numble.daangnservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import numble.daangnservice.domain.myInfo.MyInfoService;
 import numble.daangnservice.domain.product.ProductEntity;
 import numble.daangnservice.domain.product.service.ProductService;
 import numble.daangnservice.domain.user.UserEntity;
@@ -10,11 +9,8 @@ import numble.daangnservice.dto.ProductDto;
 import numble.daangnservice.infrastructure.SessionConst;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Slf4j
