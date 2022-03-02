@@ -2,15 +2,10 @@ package numble.daangnservice.domain.product.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import numble.daangnservice.domain.product.ProductCategory;
-import numble.daangnservice.domain.product.ProductEntity;
-import numble.daangnservice.domain.product.ProductImageEntity;
-import numble.daangnservice.domain.product.ProductStatus;
+import numble.daangnservice.domain.product.*;
 import numble.daangnservice.domain.user.LikeEntity;
-import numble.daangnservice.repository.LikeRepository;
-import numble.daangnservice.repository.ProductImageRepository;
-import numble.daangnservice.repository.ProductRepository;
-import numble.daangnservice.repository.UserRepository;
+import numble.daangnservice.dto.CommentDto;
+import numble.daangnservice.repository.*;
 import numble.daangnservice.domain.user.UserEntity;
 import numble.daangnservice.domain.utils.UploadService;
 import numble.daangnservice.dto.ProductDto;
@@ -19,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,11 +23,13 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 @Service
 public class ProductService {
+
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
     private final UploadService uploadService;
     private final LikeRepository likeRepository;
+    private final ProductCommentRepository productCommentRepository;
 
 
     @Transactional
@@ -103,5 +101,37 @@ public class ProductService {
     public void changeToComplete(Long productId) {
         ProductEntity product = findProduct(productId);
         product.editStatus(ProductStatus.COMPLETE);
+    }
+
+    public List<CommentDto> getProductComment(Long productId) {
+        ProductEntity productEntity = findProduct(productId);
+        List<ProductCommentEntity> CommentEntityList = productCommentRepository.findByProductEntity(productEntity);
+
+        List<CommentDto> commentDtos = new ArrayList<>();
+
+        for (ProductCommentEntity productCommentEntity : CommentEntityList) {
+            commentDtos.add(CommentDto.builder()
+                    .nickname(productCommentEntity.getUserEntity().getNickname())
+                    .comment(productCommentEntity.getContent())
+                    .image(productCommentEntity.getUserEntity().getProfileImageUrl())
+                    .createdAt(productCommentEntity.getCreatedAt())
+                    .build());
+        }
+        return commentDtos;
+    }
+
+
+    @Transactional
+    public void saveComment(Long userId, Long productId, String comment) {
+        Optional<UserEntity> commentWriter = userRepository.findById(userId);
+        ProductEntity product = findProduct(productId);
+
+        productCommentRepository.save(
+                ProductCommentEntity.builder()
+                        .userEntity(commentWriter.get())
+                        .productEntity(product)
+                        .content(comment)
+                        .build()
+        );
     }
 }

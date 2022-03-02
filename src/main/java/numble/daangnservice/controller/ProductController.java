@@ -2,16 +2,22 @@ package numble.daangnservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import numble.daangnservice.domain.myInfo.MyInfoService;
+import numble.daangnservice.domain.product.ProductCommentEntity;
 import numble.daangnservice.domain.product.ProductEntity;
 import numble.daangnservice.domain.product.service.ProductService;
 import numble.daangnservice.domain.user.UserEntity;
+import numble.daangnservice.domain.user.service.UserService;
+import numble.daangnservice.dto.CommentDto;
 import numble.daangnservice.dto.ProductDto;
 import numble.daangnservice.infrastructure.SessionConst;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -55,7 +61,6 @@ public class ProductController {
     @GetMapping("/product/like/{productId}")
     public String likeProduct(@SessionAttribute(name = SessionConst.LOGIN_USER, required = false) Long userId,
                               @PathVariable Long productId) {
-
         productService.saveUserLikeProduct(productId, userId);
         return "redirect:/product/page/{productId}";
     }
@@ -70,5 +75,34 @@ public class ProductController {
     public String changeStatusComplete(@PathVariable Long productId){
         productService.changeToComplete(productId);
         return "redirect:/myInfo";
+    }
+
+    @GetMapping("/product/comment/{productId}")
+    public String viewProductComment(@PathVariable Long productId, Model model) {
+        ProductEntity product = productService.findProduct(productId);
+        List<CommentDto> productComment = productService.getProductComment(productId);
+
+        //생각해보니 이것도 DTO를 통해서 반환하는게 어떨까 하는 생각
+        // 엔티티 그대로 반환하다가 뷰에서 필드명 잘못되면 깨짐
+
+        model.addAttribute("product",product);
+        model.addAttribute("productComment", productComment);
+        return "/product/productComment";
+    }
+
+    //product 관한 정보를 넘기기 위해 파라미터로 넘김
+    @GetMapping("/product/comment/write/{productId}")
+    public String moveWriteCommentForm(@PathVariable Long productId, Model model){
+        ProductEntity product = productService.findProduct(productId);
+        model.addAttribute("product", product);
+        return "/product/writeCommentPage";
+    }
+
+    @PostMapping("/product/comment/write")
+    public String writeComment(@SessionAttribute(name = SessionConst.LOGIN_USER, required = false) Long userId,
+                               @RequestParam String comment, @RequestParam Long productId, RedirectAttributes redirectAttributes) {
+        productService.saveComment(userId, productId, comment);
+        redirectAttributes.addAttribute("productId", productId);
+        return "redirect:/product/page/{productId}";
     }
 }
