@@ -7,8 +7,8 @@
 <body>
     <h2 th:text="${nickname}"></h2>
 <div th:object="${product}">
-    <img th:src="${product.representativeImage}" alt="이미지 칸이에요">
 
+    <img th:src="${product.representativeImage}" alt="이미지 칸이에요">
     <h3 th:text="${product.title}"></h3>
     <h3 th:text="${product.price}"></h3>
     <h3 th:text="${product.category}"></h3>
@@ -16,7 +16,15 @@
     <h3 th:text="${product.content}"></h3>
     <h3 th:text="${product.id}"></h3>
 </div>
-    <button th:onclick="|location.href='@{/product/page/{productId}(productId=${product.id})}'|">게시글 수정</button>
-    <button th:onclick="|location.href='@{/product/delete/{productId}(productId=${product.id})}'|">게시글 삭제</button>
+    <div>
+        <button th:onclick="|location.href='@{/product/page/{productId}(productId=${product.id})}'|">게시글 수정</button>
+        <button th:onclick="|location.href='@{/product/delete/{productId}(productId=${product.id})}'|">게시글 삭제</button>
+    </div>
+
+    <div>
+        <button th:onclick="|location.href='@{/product/like/{productId}(productId=${product.id})}'|">좋아요</button>
+        <button th:onclick="|location.href='@{/product/comment/{productId}(productId=${product.id})}'|">댓글보기</button>
+        <button th:onclick="|location.href='@{/product/comment/write/{productId}(productId=${product.id})}'|">댓글남기기</button>
+    </div>
 </body>
 </html>

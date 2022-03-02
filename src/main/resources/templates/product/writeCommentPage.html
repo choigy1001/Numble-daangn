@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>댓글남기기</h2>
+    <form method="post" th:action="@{/product/comment/write}">
+        댓글 작성란<br>
+        <input type="text" name="comment">
+        <input type="hidden" name="productId" th:value="${product.id}">
+        <input type="submit" value="제출">
+    </form>
+
+</body>
+</html>

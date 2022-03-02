@@ -1,19 +1,14 @@
-package numble.daangnservice.domain.repository;
+package numble.daangnservice.repository;
 
 import numble.daangnservice.domain.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     Optional<UserEntity> findByEmail(String email);
 
-    UserEntity findByNickname(String nickname);
-
     Optional<UserEntity> findById(Long id);
 
-//    UserEntity getById(Long id);
 }

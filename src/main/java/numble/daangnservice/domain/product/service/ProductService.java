@@ -2,13 +2,10 @@ package numble.daangnservice.domain.product.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import numble.daangnservice.domain.product.ProductCategory;
-import numble.daangnservice.domain.product.ProductEntity;
-import numble.daangnservice.domain.product.ProductImageEntity;
-import numble.daangnservice.domain.product.ProductStatus;
-import numble.daangnservice.domain.repository.ProductImageRepository;
-import numble.daangnservice.domain.repository.ProductRepository;
-import numble.daangnservice.domain.repository.UserRepository;
+import numble.daangnservice.domain.product.*;
+import numble.daangnservice.domain.user.LikeEntity;
+import numble.daangnservice.dto.CommentDto;
+import numble.daangnservice.repository.*;
 import numble.daangnservice.domain.user.UserEntity;
 import numble.daangnservice.domain.utils.UploadService;
 import numble.daangnservice.dto.ProductDto;
@@ -26,10 +23,13 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 @Service
 public class ProductService {
+
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
     private final UploadService uploadService;
+    private final LikeRepository likeRepository;
+    private final ProductCommentRepository productCommentRepository;
 
 
     @Transactional
@@ -56,7 +56,6 @@ public class ProductService {
                         .build()
         );
 
-
         for (String productImageUrl : productImageUrlsList) {
             productImageRepository.save(
                     ProductImageEntity.builder()
@@ -65,7 +64,6 @@ public class ProductService {
                             .build()
             );
         }
-
     }
 
     public ProductEntity findProduct(Long productId){
@@ -80,6 +78,20 @@ public class ProductService {
     }
 
     @Transactional
+    public void saveUserLikeProduct(Long productId, Long userId) {
+        Optional<UserEntity> userEntity = userRepository.findById(userId);
+        Optional<ProductEntity> productEntity= productRepository.findById(productId);
+
+        likeRepository.save(
+                LikeEntity.builder().
+                        userEntity(userEntity.get()).
+                        productEntity(productEntity.get()).
+                        build()
+        );
+
+    }
+
+    @Transactional
     public void changeToReserve(Long productId) {
         ProductEntity product = findProduct(productId);
         product.editStatus(ProductStatus.RESERVATION);
@@ -89,5 +101,37 @@ public class ProductService {
     public void changeToComplete(Long productId) {
         ProductEntity product = findProduct(productId);
         product.editStatus(ProductStatus.COMPLETE);
+    }
+
+    public List<CommentDto> getProductComment(Long productId) {
+        ProductEntity productEntity = findProduct(productId);
+        List<ProductCommentEntity> CommentEntityList = productCommentRepository.findByProductEntity(productEntity);
+
+        List<CommentDto> commentDtos = new ArrayList<>();
+
+        for (ProductCommentEntity productCommentEntity : CommentEntityList) {
+            commentDtos.add(CommentDto.builder()
+                    .nickname(productCommentEntity.getUserEntity().getNickname())
+                    .comment(productCommentEntity.getContent())
+                    .image(productCommentEntity.getUserEntity().getProfileImageUrl())
+                    .createdAt(productCommentEntity.getCreatedAt())
+                    .build());
+        }
+        return commentDtos;
+    }
+
+
+    @Transactional
+    public void saveComment(Long userId, Long productId, String comment) {
+        Optional<UserEntity> commentWriter = userRepository.findById(userId);
+        ProductEntity product = findProduct(productId);
+
+        productCommentRepository.save(
+                ProductCommentEntity.builder()
+                        .userEntity(commentWriter.get())
+                        .productEntity(product)
+                        .content(comment)
+                        .build()
+        );
     }
 }

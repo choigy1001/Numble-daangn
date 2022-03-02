@@ -39,12 +39,12 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String moveLoginForm(@ModelAttribute("loginDto") UserDto.LOGIN loginDto, HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            return "/mainPage";
+    public String moveLoginForm(@SessionAttribute(name = SessionConst.LOGIN_USER, required = false) Long userId,
+                                @ModelAttribute("loginDto") UserDto.LOGIN loginDto) {
+        if (userId == null) {
+            return "/login/loginForm";
         }
-        return "login/loginForm";
+        return "/mainPage";
     }
 
     @PostMapping("/login")
